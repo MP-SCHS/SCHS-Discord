@@ -1,14 +1,17 @@
-// Initialization
+// Use a unique name to avoid the "already declared" error
 const supabaseUrl = 'https://tzdmppqaeusuvygnnctw.supabase.co';
 const supabaseKey = 'sb_publishable_tvNY-Y2BTv2kMkr96dDe7g_HWr_g9Af';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+console.log("Supabase loaded and script running!");
 
 // 1. Request Notification Permission
 function enableNotifications() {
     Notification.requestPermission().then(permission => {
         if (permission === "granted") {
             alert("Notifications enabled!");
-            document.getElementById('status').innerText = "Ready to receive messages.";
+        } else {
+            alert("Notification permission: " + permission);
         }
     });
 }
@@ -18,30 +21,29 @@ async function send() {
     const email = document.getElementById('emailInput').value;
     const content = document.getElementById('msgInput').value;
 
-    if (!email || !content) return alert("Fill in both boxes!");
+    console.log("Trying to send...", { email, content });
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from('messages')
         .insert([{ sender_email: email, content: content }]);
 
     if (error) {
-        console.error(error);
-        alert("Error: Make sure your table 'messages' exists!");
+        console.error("Insert Error:", error.message);
+        alert("Error: " + error.message);
     } else {
-        document.getElementById('msgInput').value = ""; // Clear input
+        console.log("Sent successfully!");
+        document.getElementById('msgInput').value = ""; 
     }
 }
 
-// 3. LISTEN for new messages (Realtime)
-supabase
-    .channel('any') // Name the channel anything
+// 3. LISTEN for new messages
+supabaseClient
+    .channel('public:messages')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-        const data = payload.new;
-        
-        // Only show notification if permission is granted
+        console.log("New message received!", payload.new);
         if (Notification.permission === "granted") {
-            new Notification(`New message from ${data.sender_email}`, {
-                body: data.content
+            new Notification(`From: ${payload.new.sender_email}`, {
+                body: payload.new.content
             });
         }
     })
