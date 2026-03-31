@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Notification Test</title>
-  </head>
-  <body>
-    <h1>Send Test Message</h1>
-    <button onclick="message()">Send</button>
-    <br>
-    <p>v2</p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Desktop Alerter</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Messenger Alert System</h1>
     
+    <div id="setup">
+        <button onclick="enableNotifications()">1. Enable Notifications</button>
+    </div>
+
+    <hr>
+
+    <div id="messaging">
+        <input type="text" id="emailInput" placeholder="Your Email">
+        <input type="text" id="msgInput" placeholder="Type a message...">
+        <button onclick="send()">Send Message</button>
+    </div>
+
+    <p>Status: <span id="status">Waiting...</span></p>
+
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
