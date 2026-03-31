@@ -2,34 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Desktop Alerter</title>
+    <title>Private Messenger</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
-    <h1>Messenger Alert System</h1>
+<body style="font-family: sans-serif; max-width: 500px; margin: auto; padding: 20px;">
+    <h1>Private Messenger</h1>
     
-    <div id="setup">
-        <button onclick="enableNotifications()">1. Enable Notifications</button>
+    <div style="background: #eee; padding: 15px; border-radius: 8px;">
+        <h3>1. Login</h3>
+        <input type="text" id="myEmail" placeholder="Your Email (to receive alerts)">
+        <button onclick="enableNotifications()">Save & Enable Alerts</button>
     </div>
 
-    <hr>
-
-    <div id="messaging">
-        <input type="text" id="emailInput" placeholder="Your Email">
-        <input type="text" id="msgInput" placeholder="Type a message...">
-        <button onclick="send()">Send Message</button>
+    <div id="chat-box" style="height: 300px; overflow-y: auto; border: 2px solid #333; background: #fff; padding: 10px; margin: 20px 0;">
+        <p><em>Log in to see messages...</em></p>
     </div>
 
-    <p>Status: <span id="status">Waiting...</span></p>
+    <div style="background: #e7f3ff; padding: 15px; border-radius: 8px;">
+        <h3>2. Send a Message</h3>
+        <input type="text" id="toEmail" placeholder="Recipient's Email">
+        <br><br>
+        <textarea id="msgInput" placeholder="Type your message..." style="width: 100%"></textarea>
+        <br><br>
+        <button onclick="send()" style="width: 100%; padding: 10px;">Send Private Message</button>
+    </div>
     <br>
-    <div id="chat-box" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; margin: 10px 0; padding: 10px;">
-    </div>
-    <br>
-    <div id="chat-box" style="height: 300px; overflow-y: auto; border: 2px solid #333; background: #f9f9f9; padding: 10px; margin-bottom: 10px; font-family: sans-serif;">
-    <p><em>Loading messages...</em></p>
-  </div>
-  <br>
-    <p>v4</p>
+    <p>v5</p>
 
     <script src="script.js"></script>
 </body>
